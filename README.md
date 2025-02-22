@@ -13,4 +13,7 @@ cd REST-API-Sederhana
 
 # Install requirement
 pip install -r requirements.txt
+
+# Running
+py app.py
 ```
