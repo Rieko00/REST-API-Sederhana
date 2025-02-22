@@ -1,6 +1,5 @@
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
-import json
 from datetime import datetime
 
 app = Flask(__name__)
@@ -10,7 +9,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Membuat model
 class Menu(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nama = db.Column(db.String(100), nullable=False)
@@ -18,7 +16,7 @@ class Menu(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 
     def to_dict(self):
-        return {col.name: getattr(self, col.name) for col in self.__table__.columns}
+        return {"id": self.id, "nama": self.nama, "harga": self.harga, "created_at": self.created_at}
 
 
 @app.route('/menu', methods=['GET', 'POST'])
@@ -37,7 +35,7 @@ def menu():
     return {'message': 'Method tidak diizinkan'}, 405   
 
     
-@app.route('/menu/<id>', methods=['GET', 'PUT', 'DELETE', 'PATCH'])
+@app.route('/menu/<id>', methods=['GET', 'PUT', 'PATCH', 'DELETE'])
 def menu_id(id):
     if request.method == 'GET':
         data_menu = Menu.query.filter_by(id=id).first()
