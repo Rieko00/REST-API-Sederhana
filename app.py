@@ -53,14 +53,6 @@ def menu_id(id):
             return {'message': 'Menu berhasil diubah'}
         return {'message': 'Menu tidak ditemukan'}, 404
     
-    if request.method == 'DELETE':
-        menu = Menu.query.filter_by(id=id).first()
-        if menu:
-            db.session.delete(menu)
-            db.session.commit()
-            return {'message': 'Menu berhasil dihapus'}
-        return {'message': 'Menu tidak ditemukan'}, 404
-    
     if request.method == 'PATCH':
         data = request.json
         menu = Menu.query.filter_by(id=id).first()
@@ -72,6 +64,16 @@ def menu_id(id):
             db.session.commit()
             return {'message': 'Menu berhasil diubah'}
         return {'message': 'Menu tidak ditemukan'}, 404
+
+    if request.method == 'DELETE':
+        menu = Menu.query.filter_by(id=id).first()
+        if menu:
+            db.session.delete(menu)
+            db.session.commit()
+            return {'message': 'Menu berhasil dihapus'}
+        return {'message': 'Menu tidak ditemukan'}, 404
+    
+
     
     return {'message': 'Method tidak diizinkan'}, 405
 
