@@ -1,0 +1,154 @@
+openapi: 3.0.0
+info:
+  title: Simple Users API
+  description: API sederhana untuk mengelola data Users, dibuat menggunakan flask dan SQLite sebagai database
+  version: "1.0.0"
+paths:
+  /users:
+    get:
+      tags: [Users]
+      summary: "Mendapatkan daftar data pengguna"
+      responses:
+        "200":
+          description: "Daftar pengguna berhasil diambil."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
+        "405":
+          description: "Method tidak diizinkan"
+          content:
+            application/json:
+              example:
+                message: "Method tidak diizinkan"
+    post:
+      tags: [Users]
+      summary: "Menambahkan pengguna baru"
+      requestBody:
+        description: "Data pengguna yang akan ditambahkan"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "200":
+          description: "User berhasil ditambahkan"
+          content:
+            application/json:
+              schema:
+                detail: "User berhasil ditambahkan"
+        "405":
+          description: "Method tidak diizinkan"
+          content:
+            application/json:
+              example:
+                message: "Method tidak diizinkan"
+  /users/{id}:
+    get:
+      tags: [Users]
+      summary: "Mengambil data pengguna berdasarkan ID"
+      parameters:
+        - name: id
+          in: path
+          description: "ID pengguna"
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "Data pengguna ditemukan"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: "User tidak ditemukan"
+          content:
+            application/json:
+              "example":
+                "detail": "User tidak ditemukan"
+        "405":
+          description: "Method tidak diizinkan"
+          content:
+            application/json:
+              example:
+                message: "Method tidak diizinkan"
+    delete:
+      tags: [Users]
+      summary: "Menghapus pengguna berdasarkan ID"
+      parameters:
+        - name: id
+          in: path
+          description: "ID pengguna"
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "User berhasil dihapus"
+          content:
+            application/json:
+              schema:
+                "detail": "User tidak ditemukan"
+        "404":
+          description: "User tidak ditemukan"
+          content:
+            application/json:
+              "example":
+                "detail": "User tidak ditemukan"
+        "405":
+          description: "Method tidak diizinkan"
+          content:
+            application/json:
+              example:
+                message: "Method tidak diizinkan"
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nama:
+          type: string
+          example: "Ariek"
+        email:
+          type: string
+          example: "Ariek@example.com"
+        telp:
+          type: string
+          example: "08123456789"
+        alamat:
+          type: string
+          example: "Jl. Pahlaman No. 1"
+        created_at:
+          type: string
+          format: date-time
+          example: "Fri, 27 Feb 2025 10:12:30 GMT"
+    UserInput:
+      type: object
+      properties:
+        nama:
+          type: string
+          example: "Ariek"
+        email:
+          type: string
+          example: "Ariek@example.com"
+        telp:
+          type: string
+          example: "08123456789"
+        alamat:
+          type: string
+          example: "Jl. Pahlaman No. 1"
+      required:
+        - nama
+        - email
+        - telp
+        - alamat

@@ -1,6 +1,7 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import json
 
 app = Flask(__name__)
 
@@ -18,6 +19,9 @@ class Menu(db.Model):
     def to_dict(self):
         return {"id": self.id, "nama": self.nama, "harga": self.harga, "created_at": self.created_at}
 
+@app.route('/docs')
+def docs():
+    return render_template('docs.html')
 
 @app.route('/menu', methods=['GET', 'POST'])
 def menu():
@@ -73,7 +77,6 @@ def menu_id(id):
             return {'message': 'Menu berhasil dihapus'}
         return {'message': 'Menu tidak ditemukan'}, 404
     
-
     
     return {'message': 'Method tidak diizinkan'}, 405
 
