@@ -41,7 +41,7 @@ paths:
           description: "User berhasil ditambahkan"
           content:
             application/json:
-              schema:
+              example:
                 detail: "User berhasil ditambahkan"
         "405":
           description: "Method tidak diizinkan"
@@ -94,7 +94,7 @@ paths:
           description: "User berhasil dihapus"
           content:
             application/json:
-              schema:
+              example:
                 "detail": "User tidak ditemukan"
         "404":
           description: "User tidak ditemukan"
